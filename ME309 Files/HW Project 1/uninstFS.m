@@ -1,8 +1,8 @@
 function [F, S] = uninstFS(mdot_0, mdot_fan, mdot_9, mdot_fuel, M_0, Alt, V_fan, V_9, unit)
-    if unit == 'EE'
+    if unit == 'E'
         gc = 32.2;
         [T, a, P, rho] = atmosisa(Alt);
-    elseif unit == 'SI'
+    elseif unit == 'I'
         gc = 1;
         Alt = convlength(Alt, 'ft', 'm');
         [T, a, P, rho] = atmosisa(Alt);

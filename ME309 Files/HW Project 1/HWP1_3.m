@@ -7,7 +7,7 @@ M_0 = .82; %unitless
 Alt = 32000; %ft or m
 V_9 = 1004; %ft/s or m/s
 V_fan = 1298; %ft/s or m/s
-unit = 'EE'; %ft/s or m/s
+unit = 'EE'; %'EE' or 'SI'
 %------------------------------------
 
 [T, TSFC] = instFS(mdot_0, mdot_fan, mdot_9, mdot_fuel, M_0, Alt, V_fan, V_9, unit);
