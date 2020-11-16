@@ -1,0 +1,394 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>hw3</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-10-18"><meta name="DC.source" content="hw3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Homework 3 Problem 2</a></li><li><a href="#2">Analytical Solution</a></li><li><a href="#3">Numerical solutions</a></li></ul></div><h2 id="1">Homework 3 Problem 2</h2><pre class="codeinput">clear
+close <span class="string">all</span>
+clc
+</pre><h2 id="2">Analytical Solution</h2><pre class="codeinput">A =-1*[0 -1 1 0
+    -1 1 0 0
+    1 0 0 1
+    0 1 1 -1];
+
+[V, s] = eig(A)
+syms <span class="string">A</span> <span class="string">B</span> <span class="string">C</span> <span class="string">D</span> <span class="string">t</span>
+x = A.*V(:,1)*exp(s(1,1).*t)+B.*V(:,2).*exp(s(2,2).*t)+C.*V(:,3).*exp(s(3,3).*t)+D.*V(:,4).*exp(s(4,4).*t);
+x_0 = subs(x,t,0);
+eqn(1) = 0 == x_0(1);
+eqn(2) = 0 == x_0(2);
+
+x_f = simplify(subs(x,t,2));
+eqn(3) = 1 == x_f(2);
+eqn(4) = 10*x_f(1) == x_f(3);
+
+k = [A B C D];
+ks = solve(eqn,k);
+kd(1) = double(ks.A);
+kd(2) = double(ks.B);
+kd(3) = double(ks.C);
+kd(4) = double(ks.D);
+kd
+x = subs(x,k,kd);
+x_f = subs(x_f,k,kd);
+tl = linspace(0,2);
+x_t = double(subs(x,t,tl));
+
+L = (x(1)).^2+(x(2)).^2+(-1*x(3)).^2;
+J = double(5*(x_f(1)).^2+0.5*int(L,t,0,2));
+
+figure(1)
+subplot(2,1,1)
+plot(tl,x_t(1,:),<span class="string">'-k'</span>,tl,x_t(2,:),<span class="string">'-r'</span>)
+title(<span class="string">"analytical, Cost: "</span>+num2str(J));
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'x values'</span>);
+legend(<span class="string">'x_1'</span>,<span class="string">'x_2'</span>,<span class="string">'location'</span>,<span class="string">'northwest'</span>);
+subplot(2,1,2);
+plot(tl,-1*x_t(3,:));
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'u'</span>);
+</pre><pre class="codeoutput">
+V =
+
+    0.5649    0.0000   -0.7559    0.4533
+   -0.7716   -0.5774   -0.3780    0.1659
+    0.2068   -0.5774    0.3780   -0.6193
+   -0.2068   -0.5774    0.3780    0.6193
+
+
+s =
+
+   -1.7321         0         0         0
+         0   -1.0000         0         0
+         0         0    1.0000         0
+         0         0         0    1.7321
+
+
+kd =
+
+   -1.3539    2.5201   -1.2865   -0.4582
+
+</pre><img vspace="5" hspace="5" src="hw3_01.png" alt=""> <h2 id="3">Numerical solutions</h2><pre class="codeinput">[TX,SX] = ode45(@(tx,sx)eom(tx,sx),linspace(0,2,201),[10e-3,10e-3]);
+[TL,Lambda] = ode45(@(tx,sx)LagrangeEom(tx,sx,TX,SX),TX(end:-1:1),[10*SX(1,end),0]);
+
+
+
+xg = [SX(:,1) SX(:,2) Lambda(:,1) Lambda(:,2)]';
+solinit.x = TX;
+solinit.y = xg;
+
+
+
+<span class="comment">%BVP4C calling statement:</span>
+sol = bvp4c(@(tx,sx)ELeom(tx,sx),@bcfunc,solinit);
+sol2 = bvp4c(@(tx,sx)ELeom(tx,sx),@bcfunc2,solinit);
+
+figure(2)
+subplot(2,1,1)
+J2 = 5*sol.y(1,end)^2+0.5*trapz(sol.x,sol.y(1,:).^2+sol.y(3,:).^2+(sol.y(3,:)).^2);
+plot(sol.x,sol.y(1,:),<span class="string">'-k'</span>,sol.x,sol.y(2,:),<span class="string">'-r'</span>,TX',SX(:,1)',<span class="string">'--k'</span>,TX,SX(:,2)',<span class="string">'--r'</span>)
+title(<span class="string">"Numerical, Cost: "</span>+num2str(J2));
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'x values'</span>);
+legend(<span class="string">'x_1'</span>,<span class="string">'x_2'</span>,<span class="string">'location'</span>,<span class="string">'northwest'</span>);
+subplot(2,1,2);
+plot(sol.x,-1*sol.y(3,:),<span class="string">'-b'</span>,TX',-1*flip(Lambda(:,1)),<span class="string">'--b'</span>);
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'u'</span>);
+
+figure(3)
+
+subplot(2,1,1)
+plot(tl,x_t(1,:),<span class="string">'-k'</span>,tl,x_t(2,:),<span class="string">'-b'</span>,sol.x,sol.y(1,:),<span class="string">'--g'</span>,sol.x,sol.y(2,:),<span class="string">'--r'</span>)
+title(<span class="string">"Overlap"</span>);
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'x values'</span>);
+legend(<span class="string">'x_1'</span>,<span class="string">'x_2'</span>,<span class="string">'location'</span>,<span class="string">'northwest'</span>);
+subplot(2,1,2);
+plot(tl,-1*x_t(3,:),<span class="string">'-k'</span>,sol.x,-sol.y(3,:),<span class="string">'--r'</span>);
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'u'</span>);
+
+figure(4)
+
+subplot(2,1,1)
+J4 = 5*sol2.y(1,end)^2+0.5*trapz(sol2.x,sol2.y(1,:).^2+sol2.y(3,:).^2+(sol2.y(3,:)).^2);
+plot(sol2.x,sol2.y(1,:),<span class="string">'-k'</span>,sol2.x,sol2.y(2,:),<span class="string">'-r'</span>,TX',SX(:,1)',<span class="string">'--k'</span>,TX,SX(:,2)',<span class="string">'--r'</span>)
+title(<span class="string">"Free X Num, Cost: "</span>+num2str(J4));
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'x values'</span>);
+legend(<span class="string">'x_1'</span>,<span class="string">'x_2'</span>,<span class="string">'location'</span>,<span class="string">'northwest'</span>);
+subplot(2,1,2);
+plot(sol2.x,-1*sol2.y(3,:),<span class="string">'-b'</span>,TX',-1*flip(Lambda(:,1)),<span class="string">'--b'</span>);
+xlabel(<span class="string">'time (s)'</span>);
+ylabel(<span class="string">'u'</span>);
+
+<span class="comment">%Integrate states (x1,x2) forward in time</span>
+<span class="keyword">function</span> ds = eom(~,sx)
+<span class="comment">% s(1) = x1, s(2) = x2</span>
+ds(1) = 1+sx(2);
+ds(2) = sx(1)-sx(2);
+ds = ds';
+<span class="keyword">end</span>
+
+<span class="comment">%Integrate Lagrange Multipliers backward in time</span>
+<span class="keyword">function</span> ds = LagrangeEom(tx,sx,TX,SX)
+<span class="comment">% s(1) = lambda_x, s(2) = lambda_y</span>
+X = interp1(TX,SX,tx);
+ds(1) = -X(1)-sx(2);
+ds(2) = -X(2)-sx(1)+sx(2);
+ds = ds';
+<span class="keyword">end</span>
+
+<span class="comment">% Euler-Lagrange Equations:</span>
+<span class="keyword">function</span> ds = ELeom(~,sx)
+<span class="comment">% s(1) = x_1, s(2) = x_2, s(3) = Lambda_1, s(4) = Lambda_2</span>
+u = -sx(3); <span class="comment">% optimal control law</span>
+ds(1) = sx(2)+u;
+ds(2) = sx(1)-sx(2);
+ds(3) = -(sx(1)+sx(4));
+ds(4) = -(sx(2)+sx(3)-sx(4));
+ds = ds';
+<span class="keyword">end</span>
+
+<span class="comment">% Boundary Condition Function</span>
+<span class="keyword">function</span> con = bcfunc(so,sf)
+<span class="comment">% so is the initial states</span>
+<span class="comment">% sf is the final states</span>
+con(1) = so(1); <span class="comment">% x_1(0) = 0</span>
+con(2) = so(2); <span class="comment">% x_2(0) = 0</span>
+con(3) = sf(2)-1; <span class="comment">% x_2(tf) = 1</span>
+con(4) = sf(3)-10*sf(1); <span class="comment">% Lambda_1(tf) = 10*x_1(tf)</span>
+<span class="keyword">end</span>
+
+<span class="comment">% The other boundary Condition Function</span>
+<span class="keyword">function</span> con = bcfunc2(so,sf)
+<span class="comment">% so is the initial states</span>
+<span class="comment">% sf is the final states</span>
+con(1) = so(3); <span class="comment">% Lambda_1(0) = 0</span>
+con(2) = so(4); <span class="comment">% Lambda_2(0) = 0</span>
+con(3) = sf(2)-1; <span class="comment">% x_2(tf) = 1</span>
+con(4) = sf(3)-10*sf(1); <span class="comment">% Lambda_1(tf) = 10*x_1(tf)</span>
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="hw3_02.png" alt=""> <img vspace="5" hspace="5" src="hw3_03.png" alt=""> <img vspace="5" hspace="5" src="hw3_04.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Homework 3 Problem 2
+clear
+close all
+clc
+
+%% Analytical Solution
+
+A =-1*[0 -1 1 0
+    -1 1 0 0
+    1 0 0 1
+    0 1 1 -1];
+
+[V, s] = eig(A)
+syms A B C D t
+x = A.*V(:,1)*exp(s(1,1).*t)+B.*V(:,2).*exp(s(2,2).*t)+C.*V(:,3).*exp(s(3,3).*t)+D.*V(:,4).*exp(s(4,4).*t);
+x_0 = subs(x,t,0);
+eqn(1) = 0 == x_0(1);
+eqn(2) = 0 == x_0(2);
+
+x_f = simplify(subs(x,t,2));
+eqn(3) = 1 == x_f(2);
+eqn(4) = 10*x_f(1) == x_f(3);
+
+k = [A B C D];
+ks = solve(eqn,k);
+kd(1) = double(ks.A);
+kd(2) = double(ks.B);
+kd(3) = double(ks.C);
+kd(4) = double(ks.D);
+kd
+x = subs(x,k,kd);
+x_f = subs(x_f,k,kd);
+tl = linspace(0,2);
+x_t = double(subs(x,t,tl));
+
+L = (x(1)).^2+(x(2)).^2+(-1*x(3)).^2;
+J = double(5*(x_f(1)).^2+0.5*int(L,t,0,2));
+
+figure(1)
+subplot(2,1,1)
+plot(tl,x_t(1,:),'-k',tl,x_t(2,:),'-r')
+title("analytical, Cost: "+num2str(J));
+xlabel('time (s)');
+ylabel('x values');
+legend('x_1','x_2','location','northwest');
+subplot(2,1,2);
+plot(tl,-1*x_t(3,:));
+xlabel('time (s)');
+ylabel('u');
+
+%% Numerical solutions
+
+[TX,SX] = ode45(@(tx,sx)eom(tx,sx),linspace(0,2,201),[10e-3,10e-3]);
+[TL,Lambda] = ode45(@(tx,sx)LagrangeEom(tx,sx,TX,SX),TX(end:-1:1),[10*SX(1,end),0]);
+
+
+
+xg = [SX(:,1) SX(:,2) Lambda(:,1) Lambda(:,2)]';
+solinit.x = TX;
+solinit.y = xg;
+
+
+
+%BVP4C calling statement:
+sol = bvp4c(@(tx,sx)ELeom(tx,sx),@bcfunc,solinit);
+sol2 = bvp4c(@(tx,sx)ELeom(tx,sx),@bcfunc2,solinit);
+
+figure(2)
+subplot(2,1,1)
+J2 = 5*sol.y(1,end)^2+0.5*trapz(sol.x,sol.y(1,:).^2+sol.y(3,:).^2+(sol.y(3,:)).^2);
+plot(sol.x,sol.y(1,:),'-k',sol.x,sol.y(2,:),'-r',TX',SX(:,1)','REPLACE_WITH_DASH_DASHk',TX,SX(:,2)','REPLACE_WITH_DASH_DASHr')
+title("Numerical, Cost: "+num2str(J2));
+xlabel('time (s)');
+ylabel('x values');
+legend('x_1','x_2','location','northwest');
+subplot(2,1,2);
+plot(sol.x,-1*sol.y(3,:),'-b',TX',-1*flip(Lambda(:,1)),'REPLACE_WITH_DASH_DASHb');
+xlabel('time (s)');
+ylabel('u');
+
+figure(3)
+
+subplot(2,1,1)
+plot(tl,x_t(1,:),'-k',tl,x_t(2,:),'-b',sol.x,sol.y(1,:),'REPLACE_WITH_DASH_DASHg',sol.x,sol.y(2,:),'REPLACE_WITH_DASH_DASHr')
+title("Overlap");
+xlabel('time (s)');
+ylabel('x values');
+legend('x_1','x_2','location','northwest');
+subplot(2,1,2);
+plot(tl,-1*x_t(3,:),'-k',sol.x,-sol.y(3,:),'REPLACE_WITH_DASH_DASHr');
+xlabel('time (s)');
+ylabel('u');
+
+figure(4)
+
+subplot(2,1,1)
+J4 = 5*sol2.y(1,end)^2+0.5*trapz(sol2.x,sol2.y(1,:).^2+sol2.y(3,:).^2+(sol2.y(3,:)).^2);
+plot(sol2.x,sol2.y(1,:),'-k',sol2.x,sol2.y(2,:),'-r',TX',SX(:,1)','REPLACE_WITH_DASH_DASHk',TX,SX(:,2)','REPLACE_WITH_DASH_DASHr')
+title("Free X Num, Cost: "+num2str(J4));
+xlabel('time (s)');
+ylabel('x values');
+legend('x_1','x_2','location','northwest');
+subplot(2,1,2);
+plot(sol2.x,-1*sol2.y(3,:),'-b',TX',-1*flip(Lambda(:,1)),'REPLACE_WITH_DASH_DASHb');
+xlabel('time (s)');
+ylabel('u');
+
+%Integrate states (x1,x2) forward in time
+function ds = eom(~,sx)
+% s(1) = x1, s(2) = x2
+ds(1) = 1+sx(2);
+ds(2) = sx(1)-sx(2);
+ds = ds';
+end
+
+%Integrate Lagrange Multipliers backward in time
+function ds = LagrangeEom(tx,sx,TX,SX)
+% s(1) = lambda_x, s(2) = lambda_y
+X = interp1(TX,SX,tx);
+ds(1) = -X(1)-sx(2);
+ds(2) = -X(2)-sx(1)+sx(2);
+ds = ds';
+end
+
+% Euler-Lagrange Equations:
+function ds = ELeom(~,sx)
+% s(1) = x_1, s(2) = x_2, s(3) = Lambda_1, s(4) = Lambda_2
+u = -sx(3); % optimal control law
+ds(1) = sx(2)+u;
+ds(2) = sx(1)-sx(2);
+ds(3) = -(sx(1)+sx(4));
+ds(4) = -(sx(2)+sx(3)-sx(4));
+ds = ds';
+end
+
+% Boundary Condition Function
+function con = bcfunc(so,sf)
+% so is the initial states
+% sf is the final states
+con(1) = so(1); % x_1(0) = 0
+con(2) = so(2); % x_2(0) = 0
+con(3) = sf(2)-1; % x_2(tf) = 1
+con(4) = sf(3)-10*sf(1); % Lambda_1(tf) = 10*x_1(tf)
+end
+
+% The other boundary Condition Function
+function con = bcfunc2(so,sf)
+% so is the initial states
+% sf is the final states
+con(1) = so(3); % Lambda_1(0) = 0
+con(2) = so(4); % Lambda_2(0) = 0
+con(3) = sf(2)-1; % x_2(tf) = 1
+con(4) = sf(3)-10*sf(1); % Lambda_1(tf) = 10*x_1(tf)
+end
+##### SOURCE END #####
+--></body></html>
